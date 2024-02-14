@@ -1,0 +1,125 @@
+{
+	"_version": "1.15.0",
+	"sap.app": {
+		"id": "ns.object_card",
+		"type": "card",
+		"title": "object card",
+		"subTitle": "sample object card",
+		"applicationVersion": {
+			"version": "1.0.0"
+		}
+	},
+	"sap.ui": {
+		"technology": "UI5",
+        "deviceTypes": {"desktop": true, "phone": true, "tablet": true},
+		"icons": {
+			"icon": "sap-icon://switch-classes"
+		}
+	},
+	"sap.card": {
+		"type": "Object",
+        "designtime": "dt/configuration",
+		"configuration" : {
+			"destinations": {
+				"ES5": {
+					"name" : "ES5",
+					"defaultUrl" : "/sap/opu/odata/iwbep/GWSAMPLE_BASIC/ContactSet"
+				}
+			},
+			"filters": {
+				"person": {
+					"type": "Select",
+					"Label" : "Team Employees",
+					"item": {
+						"path": "/d/results",
+						"template": {
+							"key": "{ContactGuid}",
+							"title": "{FirstName} {LastName}"
+						}
+					},
+					"data": {
+						"request": {
+							"url": "{{destinations.ES5}}/sap/opu/odata/iwbep/GWSAMPLE_BASIC/ContactSet",
+							"withCredentials": true
+						}
+					}
+				}
+			}
+		},
+		"data": {
+			"request" : {
+				"url" : "{{destinations.ES5}}/sap/opu/odata/iwbep/GWSAMPLE_BASIC/ContactSet",
+				"withCredentials": true,
+				"parameters": {
+					"$filter": "ContactGuid eq guid'{filters>/person/selectedItem/key}'"
+				}
+			},
+			"path" : "/d/results/0/"
+		},
+		"header": {
+			"icon": {
+				"src": "{photo}",
+				"alt": ""
+			},
+			"title": "{/FirstName} {/LastName}",
+			"status": {
+				"text" : "1/30"
+			}
+		},
+		"content": {
+			"groups": [
+				{
+					"title": "Contact Details",
+					"items": [
+						{
+							"label": "First Name",
+							"value": "{FirstName}"
+						},
+						{
+							"label": "Last Name",
+							"value": "{LastName}"
+						},
+						{
+							"label": "Phone",
+							"value": "{PhoneNumber}",
+							"type": "phone"
+						},
+						{
+							"label": "Email",
+							"value": "{EmailAddress}",
+							"type": "email"
+						}
+					]
+				},
+				{
+					"title": "Address",
+					"items": [
+						{
+							"label" : "Building Number",
+							"value" : "{Address/Building}"
+						},
+						{
+							"label": "Street",
+							"value": "{Address/Street}"
+						},
+						{
+							"label": "City",
+							"value": "{Address/City}"
+						},
+						{
+							"label": "Country",
+							"value": "{Address/Country}"
+						},
+						{
+							"label": "Postal Code",
+							"value": "{Address/PostalCode}"
+						}
+					]
+				}
+			]
+		}
+	},
+    "sap.platform.mobilecards": {
+        "compatible": false
+    }
+}
